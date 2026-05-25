@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>General — DBRE Operations Team</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --gold-warm: #C9A84C;
+    --gold-light: #D4AF6A;
+    --gold-mid: #B8892A;
+    --bg: #1A1A1A;
+    --card-cream: #F5F0E8;
+    --card-dark: #2B2B2B;
+    --text-dark: #1A1A1A;
+    --text-light: #E8E2D9;
+    --text-muted: #999;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text-light);
+    font-family: 'Montserrat', sans-serif;
+    min-height: 100vh;
+  }
+
+  /* HERO */
+  .hero {
+    padding: 48px 48px 40px;
+    border-bottom: 1px solid rgba(201,168,76,0.2);
+    position: relative;
+  }
+
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 48px; right: 48px;
+    height: 1px;
+    background: linear-gradient(90deg, var(--gold-warm), var(--gold-light), transparent);
+  }
+
+  .eyebrow {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--gold-warm);
+    margin-bottom: 10px;
+  }
+
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 36px;
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.15;
+    margin-bottom: 6px;
+  }
+
+  .hero-subtitle {
+    font-size: 12.5px;
+    font-weight: 300;
+    color: var(--gold-light);
+    letter-spacing: 0.06em;
+    margin-bottom: 10px;
+  }
+
+  .hero-description {
+    font-size: 12px;
+    font-weight: 400;
+    color: #aaa;
+    max-width: 580px;
+    line-height: 1.75;
+  }
+
+  /* SECTION HEADER */
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 34px 48px 16px;
+  }
+
+  .section-label {
+    font-size: 9.5px;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--gold-warm);
+    white-space: nowrap;
+  }
+
+  .section-rule {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, var(--gold-warm), var(--gold-light), transparent);
+  }
+
+  /* PINNED NOTE */
+  .pinned-note {
+    margin: 0 48px 8px;
+    padding: 14px 20px;
+    background: rgba(201,168,76,0.08);
+    border-left: 3px solid var(--gold-warm);
+    border-radius: 0 4px 4px 0;
+  }
+
+  .pinned-note p {
+    font-size: 11.5px;
+    color: #bbb;
+    line-height: 1.6;
+  }
+
+  .pinned-note strong {
+    color: var(--gold-light);
+    font-weight: 600;
+  }
+
+  /* CARDS */
+  .cards {
+    padding: 0 48px 12px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .card {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    padding: 22px 28px;
+    text-decoration: none;
+    transition: filter 0.2s ease, transform 0.2s ease;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+
+  .card:last-child { border-bottom: none; }
+
+  .card:hover {
+    filter: brightness(1.05);
+    transform: translateX(3px);
+  }
+
+  .card.cream { background: var(--card-cream); }
+  .card.dark  { background: var(--card-dark); }
+
+  .card-icon {
+    width: 38px;
+    height: 38px;
+    border-radius: 6px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 2px;
+  }
+
+  .card.cream .card-icon { background: rgba(201,168,76,0.15); border: 1px solid rgba(201,168,76,0.3); }
+  .card.dark  .card-icon { background: rgba(201,168,76,0.10); border: 1px solid rgba(201,168,76,0.2); }
+
+  .card-icon svg { width: 18px; height: 18px; }
+  .card.cream .card-icon svg { color: var(--gold-mid); }
+  .card.dark  .card-icon svg { color: var(--gold-warm); }
+
+  .card-body { flex: 1; }
+
+  .card-number {
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+
+  .card.cream .card-number { color: var(--gold-mid); }
+  .card.dark  .card-number { color: var(--gold-warm); }
+
+  .card-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.3;
+    margin-bottom: 5px;
+  }
+
+  .card.cream .card-title { color: var(--text-dark); }
+  .card.dark  .card-title { color: #fff; }
+
+  .card-desc {
+    font-size: 11.5px;
+    line-height: 1.6;
+  }
+
+  .card.cream .card-desc { color: #666; }
+  .card.dark  .card-desc { color: #999; }
+
+  .card-arrow {
+    font-size: 18px;
+    align-self: center;
+    opacity: 0.4;
+    flex-shrink: 0;
+  }
+
+  .card.cream .card-arrow { color: var(--gold-mid); }
+  .card.dark  .card-arrow { color: var(--gold-warm); }
+
+  /* LOCK BADGE */
+  .lock-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 2px 7px;
+    border-radius: 3px;
+    margin-left: 8px;
+    vertical-align: middle;
+    position: relative;
+    top: -1px;
+  }
+
+  .card.cream .lock-badge {
+    background: rgba(184,137,42,0.12);
+    color: var(--gold-mid);
+    border: 1px solid rgba(184,137,42,0.25);
+  }
+
+  .card.dark .lock-badge {
+    background: rgba(201,168,76,0.10);
+    color: var(--gold-warm);
+    border: 1px solid rgba(201,168,76,0.2);
+  }
+
+  /* FOOTER */
+  footer {
+    margin-top: 40px;
+    padding: 20px 48px;
+    border-top: 1px solid rgba(201,168,76,0.15);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  footer span {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #555;
+  }
+
+  footer span.right { color: var(--gold-mid); }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="eyebrow">DBRE Operations Team · Workspace Index</div>
+  <h1 class="hero-title">Operations Team</h1>
+  <div class="hero-subtitle">Dana Blanks Real Estate™ · Internal Operations Workspace</div>
+  <p class="hero-description">The central directory for DBRE's Operations Team workspace. Each channel below has a dedicated purpose — use this index to navigate directly to the SharePoint file library for any channel. Content lives in one place; this page connects you to it.</p>
+</div>
+
+<!-- HOW THIS WORKSPACE IS ORGANIZED -->
+<div class="section-header">
+  <span class="section-label">How This Workspace Is Organized</span>
+  <div class="section-rule"></div>
+</div>
+
+<div class="pinned-note">
+  <p><strong>Single source of truth.</strong> Operations channels link to or reference content — they do not duplicate what lives in the Knowledge Vault, Creative Suite, or Advisor Boardrooms. When in doubt about where something lives, check the Knowledge Vault first.</p>
+</div>
+
+<!-- CHANNEL DIRECTORY -->
+<div class="section-header">
+  <span class="section-label">Channel Directory</span>
+  <div class="section-rule"></div>
+</div>
+
+<div class="cards">
+
+  <a class="card cream" href="https://danablanksrealestate.sharepoint.com/sites/DBREOperations-00OperationsCommand/Shared%20Documents/Forms/AllItems.aspx" target="_blank">
+    <div class="card-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+    </div>
+    <div class="card-body">
+      <div class="card-number">Channel 00 <span class="lock-badge">🔒 Dana + MJ</span></div>
+      <div class="card-title">Operations Command</div>
+      <div class="card-desc">MJ's command center. Infrastructure buildout tracker, vendor contacts, advisor administration, transaction oversight, and Dana's delegation list. The operational hub where the firm's day-to-day management lives.</div>
+    </div>
+    <div class="card-arrow">›</div>
+  </a>
+
+  <a class="card dark" href="https://danablanksrealestate.sharepoint.com/sites/DBREOperations-AdvisorLifecycle/Shared%20Documents/Forms/AllItems.aspx" target="_blank">
+    <div class="card-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+    </div>
+    <div class="card-body">
+      <div class="card-number">Channel 01 <span class="lock-badge">🔒 Dana + MJ</span></div>
+      <div class="card-title">Advisor Lifecycle</div>
+      <div class="card-desc">Everything from first contact to offboarding. Onboarding SOPs, welcome box materials, profile setup resources, ICA documents, checklists, and the full advisor departure process.</div>
+    </div>
+    <div class="card-arrow">›</div>
+  </a>
+
+  <a class="card cream" href="https://danablanksrealestate.sharepoint.com/sites/ops/Shared%20Documents/Forms/AllItems.aspx?FolderCTID=0x0120005A86D71881955542AE4D94F06F06059D&id=%2Fsites%2Fops%2FShared%20Documents%2F02%20%C2%B7%20Transaction%20Coordination" target="_blank">
+    <div class="card-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+    </div>
+    <div class="card-body">
+      <div class="card-number">Channel 02</div>
+      <div class="card-title">Transaction Coordination</div>
+      <div class="card-desc">Your roadmap from contract to close. Buyer-side and seller-side SOPs, checklists, TC email templates, and handoff protocols for residential and land transactions.</div>
+    </div>
+    <div class="card-arrow">›</div>
+  </a>
+
+  <a class="card dark" href="https://danablanksrealestate.sharepoint.com/sites/ops/Shared%20Documents/Forms/AllItems.aspx?FolderCTID=0x0120005A86D71881955542AE4D94F06F06059D&id=%2Fsites%2Fops%2FShared%20Documents%2F03%20%C2%B7%20Marketing%20and%20Brand" target="_blank">
+    <div class="card-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M8.56 2.75c4.37 6.03 6.02 9.42 8.03 17.72m2.54-15.38c-3.72 4.35-8.94 5.66-16.88 5.85m19.5 1.9c-3.5-.93-6.63-.82-8.94 0-2.58.92-5.01 2.86-7.44 6.32"/></svg>
+    </div>
+    <div class="card-body">
+      <div class="card-number">Channel 03</div>
+      <div class="card-title">Marketing and Brand</div>
+      <div class="card-desc">DBRE's social media execution hub. Content calendar, campaign briefs, social media policy, seasonal Canva briefs, and brand strategy materials for brokerage-level marketing.</div>
+    </div>
+    <div class="card-arrow">›</div>
+  </a>
+
+  <a class="card cream" href="https://danablanksrealestate.sharepoint.com/sites/ops/Shared%20Documents/Forms/AllItems.aspx?FolderCTID=0x0120005A86D71881955542AE4D94F06F06059D&id=%2Fsites%2Fops%2FShared%20Documents%2F04%20%C2%B7%20Systems%20and%20The%20CRM%20Desk" target="_blank">
+    <div class="card-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8m-4-4v4"/></svg>
+    </div>
+    <div class="card-body">
+      <div class="card-number">Channel 04</div>
+      <div class="card-title">Systems and The CRM Desk</div>
+      <div class="card-desc">Wise Agent CRM management, automations, the master task list, contact import protocols, and TC workflow versions. The operational technology hub for the firm.</div>
+    </div>
+    <div class="card-arrow">›</div>
+  </a>
+
+  <a class="card dark" href="https://danablanksrealestate.sharepoint.com/sites/ops/Shared%20Documents/Forms/AllItems.aspx?FolderCTID=0x0120005A86D71881955542AE4D94F06F06059D&id=%2Fsites%2Fops%2FShared%20Documents%2F05%20%C2%B7%20Training%20Library" target="_blank">
+    <div class="card-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+    </div>
+    <div class="card-body">
+      <div class="card-number">Channel 05</div>
+      <div class="card-title">Training Library</div>
+      <div class="card-desc">Working drafts workspace only. Scripts are drafted and reviewed here before publishing to the Knowledge Vault Training Library. Published training content and videos live in the Knowledge Vault — not here.</div>
+    </div>
+    <div class="card-arrow">›</div>
+  </a>
+
+  <a class="card cream" href="https://danablanksrealestate.sharepoint.com/sites/ops/Shared%20Documents/Forms/AllItems.aspx?FolderCTID=0x0120005A86D71881955542AE4D94F06F06059D&id=%2Fsites%2Fops%2FShared%20Documents%2F07%20%C2%B7%20DBRE%20Referral%20Partners" target="_blank">
+    <div class="card-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+    </div>
+    <div class="card-body">
+      <div class="card-number">Channel 07</div>
+      <div class="card-title">DBRE Referral Partners</div>
+      <div class="card-desc">New channel for managing DBRE's referral partner relationships. Referral agreements, partner resources, financial records, licensing and compliance, and transaction records for referral business.</div>
+    </div>
+    <div class="card-arrow">›</div>
+  </a>
+
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <span>Dana Blanks Real Estate™</span>
+  <span class="right">Operations Team · Workspace Index</span>
+</footer>
+
+</body>
+</html>
